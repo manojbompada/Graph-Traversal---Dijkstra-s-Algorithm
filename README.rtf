@@ -1,0 +1,246 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033\deflangfe1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fmodern\fprq1\fcharset0 Courier New;}{\f2\fmodern\fprq1\fcharset0 Consolas;}{\f3\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red63\green127\blue95;\red127\green0\blue85;\red0\green0\blue0;\red106\green62\blue62;\red0\green0\blue192;\red42\green0\blue255;\red192\green192\blue192;}
+{\*\generator Riched20 10.0.10586}{\*\mmathPr\mnaryLim0\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
+\pard\widctlpar\sa160\sl252\slmult1\f0\fs24 /**Manoj Bompada  \par
+\ul\b Compiler:\ulnone\b0  Java\par
+\ul\b Input file:\ulnone\b0  graph.txt (which contains edges and their transit times).\par
+\par
+\ul\b Program Design:\par
+\ulnone\b0 In this design five classes are maintained\par
+Vertex class \endash  Maintains the vertices of the graph along with their properties such as state, distance, name, color. These vertices are stored in a hash map.\par
+Edge class \endash  This contains all the edge parameters such as edge vertices, edge state, edge color, edge distance. All the edges are maintained through a linked list.\par
+Min_heap class \endash  It implements the priority queue which is used to maintain the vertices while calculating the shortest paths from source vertices\par
+Graph Class \endash  This will perform various operations on the graph\par
+Main Class \endash  This will read the input file, constructs the graph, calls the process that takes input to perform operations on graph\par
+This programs reads the input file from the arguments in the command line and constructs the graph through \lquote addedge\rquote  method which will add the two directional edges along with their weights, maintained in a linked list. All the list of vertices are maintained in a hash map which assigns a unique value for every key \par
+A series of operations can be performed on the graph after construction through some commands which are short listed below. These commands can be given on the command line which have specific format, which in turn calls the corresponding methods. \par
+\ul Commands/Change Operations:\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\widctlpar\fi-360\li810\sa160\sl252\slmult1\ulnone path from_vertex to_vertex\par
+{\pntext\f0 2.\tab}addedge tailvertex headvertex transmit time\ul\par
+{\pntext\f0 3.\tab}\ulnone deleteedge tailvertex headvertex\par
+{\pntext\f0 4.\tab}edgedown tailvertex headvertex\par
+{\pntext\f0 5.\tab}edgeup tailvertex headvertex\par
+{\pntext\f0 6.\tab}vertexdown vertex\par
+{\pntext\f0 7.\tab}vertexup vertex\par
+{\pntext\f0 8.\tab}print\par
+{\pntext\f0 9.\tab}reachable\ul\b\par
+
+\pard\widctlpar\sa160\sl252\slmult1\ulnone\b0 All the above mentioned commands should be given exactly on the command line with correct parameters in order execute an operation\par
+\par
+\ul Methods:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\widctlpar\fi-360\li720\cf1\ulnone void addedge( String s, String d, float f )---->adds unidirectional weighted edges to graph\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void deleteedge(String t, String h)----->delete edges from graph\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void vertexdown(String s)---->makes vertex of the graph inactive\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void vertexup(String s)---->makes vertex of the graph active\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void edgedown(String s, String d)---->an edge of a graph made to down\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void edgeup(String s, String d)---->makes edge of a graph active which is inactive before\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void reachable_vertices()---->finds all the reachable vertices from all the vertices of graph\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void DFS_Visit(Vertex v, Stack<Vertex> \ul dfs\ulnone , boolean b )---->traverse the graph through DFS using stack\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void printGraph()---->prints all the vertices with its corresponding edges of the graph\cf0\par
+{\pntext\f3\'B7\tab}\cf1 void printPath( String w )---->Prints paths between two vertices  \cf0\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\widctlpar\fi-360\li720\sa160\sl252\slmult1\cf1 void weighted( String s )---->Calculates shortest path between two vertices using dijikistra algorithm\cf0\par
+
+\pard\widctlpar\sa160\sl252\slmult1\par
+\ul\b Data Structure Design:\par
+\ulnone\b0 Operations such as vertexdown, vertexup are performed by changing the state of vertex to down, that is, \lquote vertex-state = down\rquote . Edge down/ Edge up can be made by changing the state of edge to down, that is, \lquote edge-state = down\rquote\par
+Addedge/deleteedge is performed on the linked list by the function \lquote source.adjacent.add(source,destination,time)\rquote / \lquote source.adjacent.remove(source,destination,time)\rquote\par
+
+\pard\widctlpar\ul\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+Reachable:\par
+\ulnone\par
+Based on the state of the graph this method finds all the reachable vertices from all the vertices of the graph by using DFS by stack \par
+\tab  *Initialization takes O(V)\par
+\tab  *Running over all the edges of a vertex will take O(E)\par
+\tab  *For Single vertex it will take O(V+E)\par
+\tab  *Since this algorithm runs over all the vertices it will take O(V(V+E)) time\par
+\par
+\f1 reachable()\par
+\par
+Map<String,Vertex> map = new TreeMap<String,Vertex>(vertexMap);\par
+\tab\tab Iterator<Entry<String, Vertex>> iterate1 = map.entrySet().iterator();\par
+\tab\tab //***Iterates over all the vertices of the graph which takes time O(v) where v-no. of vertices of graph\tab\par
+\tab\tab while (iterate1.hasNext()) \{\par
+\tab\tab\tab //***for loop initializes all the vertices which takes O(V) time where v-no. of vertices\par
+\tab\tab\tab for( Vertex w : vertexMap.values( ) )\par
+\tab\tab\tab\{\par
+\tab\tab\tab\tab w.setVcolor("white");\par
+\tab\tab\tab\tab w.setPrev(null);\par
+\tab\tab\tab\}\par
+\tab\tab\tab\par
+\tab\tab\tab Map.Entry<String,Vertex> pair = (Map.Entry<String,Vertex>)iterate1.next();\par
+\tab\tab\tab Vertex temp =  (Vertex) pair.getValue();\par
+\tab\tab\tab\par
+\tab\tab\tab //***checks the state of vertices and edges whether it is up/down and this will take O(V+E)\par
+\tab\tab\tab if (temp.vstate == true)\{\par
+\tab\tab\tab\tab for( Vertex v : vertexMap.values( ) )\par
+\tab\tab\tab\tab\{\par
+\tab\tab\tab\tab\tab for (Edge tempEdge : v.adj)\{\par
+\tab\tab\tab\tab\tab\tab if ((tempEdge.getVertex2()  == temp) || (tempEdge.getVertex1()  == temp)) \{\par
+\tab\tab\tab\tab\tab\tab\tab tempEdge.erstate = true;\par
+\tab\tab\tab\tab\tab\tab\}\par
+\tab\tab\tab\tab\tab\}\par
+\tab\tab\tab\tab\}\par
+\tab\tab\tab\}\par
+\par
+\tab\tab\tab if((temp.vcolor == "white") && (temp.vstate == false))\{\par
+\tab\tab\tab\tab //*** Sets a source vertex to gray, pushes onto the stack and calls DFS \par
+\tab\tab\tab\tab dfs.push(temp);\par
+\tab\tab\tab\tab System.out.println(temp.name);\par
+\tab\tab\tab\tab temp.setVcolor("gray");\par
+\tab\tab\tab\tab DFS_Visit(temp,dfs,temp.vstate);\par
+\tab\tab\tab\}\par
+\tab\tab\tab continue;\par
+\tab\tab\}\par
+\tab\}\par
+
+\pard\widctlpar\sa160\sl252\slmult1\f0\tab  \par
+DFS(v,dfs,b)\par
+
+\pard\widctlpar\cf2\b\f1 for\cf3\b0 (Edge \cf4 tempEdge\cf3 : \cf4 v\cf3 .\cf5 adj\cf3 )  \cf0\par
+\cf3\tab\tab\{\cf0\par
+\cf1 //\tab\tab\tab Collections.sort(v.adj);\cf0\par
+\cf3\tab\tab\tab\cf1 //***Checks the edges of the graph if they are up/down\cf0\par
+\cf3\tab\tab\tab\cf2\b if\cf3\b0 ( \cf4 tempEdge\cf3 .\cf5 erstate\cf3  == \cf2\b false\cf3\b0  && \cf4 tempEdge\cf3 .\cf5 estate\cf3  == \cf2\b false\cf3\b0 )\{\cf0\par
+\par
+\cf3\tab\tab\tab\tab\cf2\b if\cf3\b0 (\cf4 tempEdge\cf3 .getVertex2().\cf5 vcolor\cf3  == \cf6 "white"\cf3 )\{\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf4 dfs\cf3 .push(\cf4 tempEdge\cf3 .getVertex2());\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf4 tempEdge\cf3 .getVertex2().setPrev(\cf4 v\cf3 );\cf0\par
+\cf3\tab\tab\tab\tab\tab System.\cf5\b\i out\cf3\b0\i0 .println(\cf6 "       "\cf3 +\cf4 tempEdge\cf3 .getVertex2().\cf5 name\cf3 );\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf4 tempEdge\cf3 .getVertex2().setVcolor(\cf6 "gray"\cf3 );\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf1 //***Calls DFS recursively\tab for all the adjacent vertices\cf0\par
+\cf3\tab\tab\tab\tab\tab DFS_Visit((\cf4 tempEdge\cf3 .getVertex2()), \cf4 dfs\cf3 ,\cf4 b\cf3 );\cf0\par
+\cf3\tab\tab\tab\tab\} \cf0\par
+\cf3\tab\tab\tab\tab\cf1 //***Traverse in reverse direction to source vertex\cf0\par
+\cf3\tab\tab\tab\tab\cf2\b else\cf3\b0  \cf2\b if\cf3\b0 ((\cf4 tempEdge\cf3 .getVertex2().\cf5 vcolor\cf3  == \cf6 "gray"\cf3 ) && (\cf4 tempEdge\cf3 .getVertex2() == \cf4 v\cf3 .getPrev()))\cf0\par
+\cf3\tab\tab\tab\tab\{\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf2\b if\cf3\b0 (!\cf4 dfs\cf3 .isEmpty())\cf0\par
+\cf3\tab\tab\tab\tab\tab\{\cf4 dfs\cf3 .pop();\cf0\par
+\cf3\tab\tab\tab\tab\tab DFS_Visit((\cf4 tempEdge\cf3 .getVertex2()), \cf4 dfs\cf3 ,\cf4 b\cf3 );\}\cf0\par
+\cf3\tab\tab\tab\tab\}\cf0\par
+\cf3\tab\tab\tab\}\cf0\par
+
+\pard\widctlpar\sa160\sl252\slmult1\cf3\tab\tab\}\par
+\par
+\ul\f0\par
+\par
+Path :\par
+\ulnone Dijikistra algorithm is used to implement the shortest path between pair of vertices\par
+\cf0 Weighted(s)\par
+
+\pard\widctlpar\cf3\f1 clearAll( );\cf0\par
+\par
+\cf3\tab\tab\cf1 //\tab\tab System.out.println("clear \ul completd\ulnone ");\cf0\par
+\cf3\tab\tab Vertex \cf4 startvertex\cf3  = \cf5\i vertexMap\cf3\i0 .get(\cf4 startName\cf3 );\cf0\par
+\cf3\tab\tab\cf1 //\tab\tab System.out.println(\ul startvertex\ulnone );\cf0\par
+\cf3\tab\tab\cf2\b if\cf3\b0 ( \cf4 startvertex\cf3  == \cf2\b null\cf3\b0  )\cf0\par
+\cf3\tab\tab\{System.\cf5\b\i out\cf3\b0\i0 .println( \cf6 "Start vertex not found"\cf3  );\}\cf0\par
+\par
+\cf3\tab\tab\cf2\b else\cf3\b0  \cf2\b if\cf3\b0 (\cf4 startvertex\cf3 .getVstate()== \cf2\b true\cf3\b0 )\{\cf0\par
+\cf3\tab\tab\tab System.\cf5\b\i out\cf3\b0\i0 .println(\cf6 "This path cannot be there as "\cf3 +\cf4 startName\cf3 +\cf6 " is down"\cf3 );\cf0\par
+\cf3\tab\tab\}\cf0\par
+\cf3\tab\tab\cf2\b else\cf0\b0\par
+\cf3\tab\tab\{\cf0\par
+\cf3\tab\tab\tab\cf1 //***A min_heap priority queue is maintains the vertices of the graph based on their distances from\cf0\par
+\cf3\tab\tab\tab\cf1 //***the source vertex\tab\tab\tab\cf0\par
+\cf3\tab\tab\tab min_heap \cf4 p\cf3  = \cf2\b new\cf3\b0  min_heap(Graph.\cf5\i vertexMap\cf3\i0 .size( ));\cf0\par
+\par
+\cf3\tab\tab\tab\cf1 //\tab\tab System.out.println("Queue generated");\cf0\par
+\cf3\tab\tab\tab\cf2\b int\cf3\b0  \cf4 index\cf3  =  \cf4 p\cf3 .\cf5 items\cf3 ;\cf0\par
+\cf3\tab\tab\tab\cf4 p\cf3 .\highlight7 insert\highlight0 (\cf4 index\cf3 , \cf4 startvertex\cf3  ); \cf4 startvertex\cf3 .\cf5 dist\cf3  = 0;\cf0\par
+\cf3\tab\tab\tab\cf4 p\cf3 .incrementArray();\cf0\par
+\cf3\tab\tab\tab\cf1 //\tab\tab System.out.println("enter into \ul diji\ulnone ");\cf0\par
+\cf3\tab\tab\tab\cf2\b while\cf3\b0 ( \cf4 p\cf3 .\cf5 items\cf3  !=0 )\cf0\par
+\cf3\tab\tab\tab\{\cf0\par
+\cf3\tab\tab\tab\tab Vertex \cf4 v\cf3  = \cf4 p\cf3 .pop( );\cf0\par
+\par
+\cf3\tab\tab\tab\tab\cf1 //\tab\tab\tab\tab System.out.println(v.name);\cf0\par
+\cf3\tab\tab\tab\tab\cf2\b for\cf3\b0 ( Edge \cf4 w\cf3  : \cf4 v\cf3 .\cf5 adj\cf3  )\cf0\par
+\cf3\tab\tab\tab\tab\{\cf0\par
+\cf3\tab\tab\tab\tab\tab Float \cf4 distance\cf3 ;\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf2\b if\cf3\b0 (\cf4 w\cf3 .\cf5 estate\cf3 ==\cf2\b true\cf3\b0 ) \cf0\par
+\cf3\tab\tab\tab\tab\tab\{\cf4 distance\cf3  = (\cf2\b float\cf3\b0 ) Graph.\cf5\b\i INFINITY\cf3\b0\i0 ;\}\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf2\b else\cf0\b0\par
+\cf3\tab\tab\tab\tab\tab\{\cf4 distance\cf3  = \cf4 w\cf3 .getEdgetime();\}\cf0\par
+\par
+\cf3\tab\tab\tab\tab\tab Vertex \cf4 v1\cf3  = \cf4 w\cf3 .getVertex1();\cf0\par
+\cf3\tab\tab\tab\tab\tab Vertex \cf4 v2\cf3  = \cf4 w\cf3 .getVertex2();\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf2\b if\cf3\b0 (\cf4 v2\cf3 .\cf5 dist\cf3  !=0 && (\cf4 v2\cf3 .\cf5 dist\cf3  > (\cf4 distance\cf3  +  \cf4 v1\cf3 .\cf5 dist\cf3 )))\cf0\par
+\cf3\tab\tab\tab\tab\tab\{\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf4 v2\cf3 .\cf5 dist\cf3  = \cf4 v1\cf3 .\cf5 dist\cf3  + \cf4 distance\cf3 ;\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf4 v2\cf3 .\cf5 prev\cf3  = \cf4 v1\cf3 ;\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf4 p\cf3 .\highlight7 insert\highlight0 (\cf4 p\cf3 .\cf5 items\cf3 , \cf4 v2\cf3  );\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf4 p\cf3 .incrementArray();\cf0\par
+\cf3\tab\tab\tab\tab\tab\}\cf0\par
+\cf3\tab\tab\tab\tab\}\cf0\par
+\cf3\tab\tab\tab\}\cf0\par
+
+\pard\widctlpar\sa160\sl252\slmult1\cf3\tab\tab\}\par
+\par
+\highlight7\f2\fs20 insert_heapify\highlight0 (i)\par
+
+\pard\widctlpar\cf2\b\f1\fs24 while\cf3\b0 (\cf4 index\cf3  > 0)\{\cf0\par
+\cf3\tab\tab\tab\cf2\b int\cf3\b0  \cf4 root\cf3  = (\cf2\b int\cf3\b0 ) Math.\i floor\i0 (\cf4 index\cf3 /2);\cf0\par
+\cf3\tab\tab\tab\cf2\b if\cf3\b0 (\cf5 heaparray\cf3 [\cf4 root\cf3 ].\cf5 dist\cf3  > \cf5 heaparray\cf3 [\cf4 index\cf3 ].\cf5 dist\cf3 )\{\cf0\par
+\cf3\tab\tab\tab\tab Vertex \cf4 temp\cf3  = \cf5 heaparray\cf3 [\cf4 root\cf3 ];\cf0\par
+\cf3\tab\tab\tab\tab\cf5 heaparray\cf3 [\cf4 root\cf3 ] = \cf5 heaparray\cf3 [\cf4 index\cf3 ];\cf0\par
+\cf3\tab\tab\tab\tab\cf5 heaparray\cf3 [\cf4 index\cf3 ] = \cf4 temp\cf3 ;\cf0\par
+\cf3\tab\tab\tab\}\cf0\par
+\cf3\tab\tab\tab\cf4 index\cf3  = \cf4 root\cf3 ;\cf0\par
+
+\pard\widctlpar\sa160\sl252\slmult1\cf3\tab\tab\}\par
+\par
+\highlight7\f2\fs20 pop_heapify\highlight0 (i)\par
+
+\pard\widctlpar\cf2\b\f1\fs24 if\cf3\b0 (\cf5 items\cf3  > 2)\{\cf0\par
+\cf3\tab\tab\tab\cf2\b int\cf3\b0  \cf4 smallestchild\cf3 ;\cf0\par
+\cf3\tab\tab\tab Vertex \cf4 root\cf3  = \cf5 heaparray\cf3 [\cf4 index\cf3 ];\cf0\par
+\par
+\cf3\tab\tab\tab\cf2\b while\cf3\b0 (\cf4 index\cf3  < \cf5 items\cf3 /2)\{\cf0\par
+\par
+\cf3\tab\tab\tab\tab\cf2\b int\cf3\b0  \cf4 leftchild\cf3  = 2*\cf4 index\cf3 +1;\cf0\par
+\cf3\tab\tab\tab\tab\cf2\b int\cf3\b0  \cf4 rightchild\cf3  = \cf4 leftchild\cf3  +1;\cf0\par
+\par
+\cf3\tab\tab\tab\tab\cf2\b if\cf3\b0 (\cf5 items\cf3 >2)\{\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf2\b if\cf3\b0 (\cf4 leftchild\cf3  < \cf5 items\cf3  && \cf5 heaparray\cf3 [\cf4 leftchild\cf3 ].\cf5 dist\cf3  < \cf5 heaparray\cf3 [\cf4 rightchild\cf3 ].\cf5 dist\cf3  )\{\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf4 smallestchild\cf3  = \cf4 leftchild\cf3 ;\cf0\par
+\cf3\tab\tab\tab\tab\tab\} \cf2\b else\cf3\b0\{\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf4 smallestchild\cf3  = \cf4 rightchild\cf3 ;\cf0\par
+\cf3\tab\tab\tab\tab\tab\}\cf0\par
+\par
+\cf3\tab\tab\tab\tab\tab\cf2\b if\cf3\b0 (\cf4 root\cf3 .\cf5 dist\cf3  <= \cf5 heaparray\cf3 [\cf4 smallestchild\cf3 ].\cf5 dist\cf3 )\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf2\b break\cf3\b0 ;\cf0\par
+\par
+\cf3\tab\tab\tab\tab\tab\cf5 heaparray\cf3 [\cf4 index\cf3 ] = \cf5 heaparray\cf3 [\cf4 smallestchild\cf3 ];\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf4 index\cf3  = \cf4 smallestchild\cf3 ;\cf0\par
+\cf3\tab\tab\tab\tab\}\cf0\par
+\cf3\tab\tab\tab\tab\cf2\b else\cf0\b0\par
+\cf3\tab\tab\tab\tab\{\cf0\par
+\cf3\tab\tab\tab\tab\tab\cf2\b if\cf3\b0 ((\cf4 leftchild\cf3 ) < \cf5 items\cf3  )\{\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf4 smallestchild\cf3  = \cf4 leftchild\cf3 ;\cf0\par
+\par
+\cf3\tab\tab\tab\tab\tab\tab\cf2\b if\cf3\b0 (\cf4 root\cf3 .\cf5 dist\cf3  <= \cf5 heaparray\cf3 [\cf4 smallestchild\cf3 ].\cf5 dist\cf3 )\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\tab\cf2\b break\cf3\b0 ;\cf0\par
+\par
+\cf3\tab\tab\tab\tab\tab\tab\cf5 heaparray\cf3 [\cf4 index\cf3 ] = \cf5 heaparray\cf3 [\cf4 smallestchild\cf3 ];\cf0\par
+\cf3\tab\tab\tab\tab\tab\tab\cf4 index\cf3  = \cf4 smallestchild\cf3 ;\cf0\par
+\cf3\tab\tab\tab\tab\tab\}\cf0\par
+\cf3\tab\tab\tab\tab\}\cf0\par
+\cf3\tab\tab\tab\tab\cf5 heaparray\cf3 [\cf4 index\cf3 ] = \cf4 root\cf3 ;\cf0\par
+\cf3\tab\tab\tab\}\cf0\par
+\cf3\tab\tab\}\cf0\par
+
+\pard\widctlpar\sa160\sl252\slmult1\cf3\tab\}\par
+}
+ 
